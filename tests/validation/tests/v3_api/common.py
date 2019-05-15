@@ -1173,4 +1173,3 @@ def resolve_node_ip(node):
     else:
         node_ip = node.ipAddress
     return node_ip
-    
