@@ -347,7 +347,7 @@ def get_user_token(user):
             print(r.json())
             return r.json()["token"]
         else:
-            print(r.content + r.status_code)
+            print(r.content + str(r.status_code))
             time.sleep(1)
             count = count + 1
     raise
