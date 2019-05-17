@@ -539,6 +539,7 @@ def validate_http_response(cmd, target_name_list, client_pod=None):
     if client_pod is None and cmd.startswith("http://"):
         wait_until_active(cmd, 60)
     target_hit_list = target_name_list[:]
+    print("target_name_list length: " + str(len(target_name_list)))
     count = 5 * len(target_name_list)
     for i in range(1, count):
         if len(target_hit_list) == 0:
