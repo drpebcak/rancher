@@ -349,8 +349,7 @@ def get_user_token(user):
         else:
             time.sleep(1)
             count = count + 1
-    return "fail"
-
+    raise
 
 
 def create_user(client):
