@@ -1,5 +1,6 @@
 import pytest
 import requests
+import time
 from rancher import ApiError, Client
 
 from .common import (
@@ -335,13 +336,21 @@ def validate_project_member(user_token, cluster, project, namespace):
 
 
 def get_user_token(user):
-    r = requests.post(CATTLE_AUTH_URL, json={
-        'username': user.username,
-        'password': user_password,
-        'responseType': 'json',
-    }, verify=False)
-    print(r.json())
-    return r.json()["token"]
+    count = 0
+    while count < 5:
+        r = requests.post(CATTLE_AUTH_URL, json={
+            'username': user.username,
+            'password': user_password,
+            'responseType': 'json',
+        }, verify=False)
+        if r.status_code == 201:
+            print(r.json())
+            return r.json()["token"]
+        else:
+            time.sleep(1)
+            count = count + 1
+    return "fail"
+
 
 
 def create_user(client):
