@@ -337,7 +337,7 @@ def validate_project_member(user_token, cluster, project, namespace):
 
 def get_user_token(user):
     count = 0
-    while count < 5:
+    while count < 10:
         r = requests.post(CATTLE_AUTH_URL, json={
             'username': user.username,
             'password': user_password,
@@ -347,6 +347,7 @@ def get_user_token(user):
             print(r.json())
             return r.json()["token"]
         else:
+            print(r.content + r.status_code)
             time.sleep(1)
             count = count + 1
     raise
