@@ -650,6 +650,7 @@ def validate_dns_record(pod, record, expected):
 
 def validate_dns_entry(pod, host, expected):
     # requires pod with `dig` available - TEST_IMAGE
+    print(f'Expected value is "{expected}"')
     cmd = 'ping -c 1 -W 1 {0}'.format(host)
     print(f'Executing command: {cmd}')
     ping_output = kubectl_pod_exec(pod, cmd)
@@ -667,6 +668,7 @@ def validate_dns_entry(pod, host, expected):
     assert " 0% packet loss" in str(ping_output)
 
     dig_cmd = 'dig {0} +short'.format(host)
+    print(f'Executing command: {dig_cmd}')
     dig_output = kubectl_pod_exec(pod, dig_cmd)
 
     for expected_value in expected:
