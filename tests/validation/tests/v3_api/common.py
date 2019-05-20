@@ -987,16 +987,21 @@ def validate_hostPort(p_client, workload, source_port, cluster):
     pods = p_client.list_pod(workloadId=workload.id).data
     nodes = get_schedulable_nodes(cluster)
     for node in nodes:
+        if not hasattr(node, 'id'):
+            print('Unexpected resonse from API. \
+            Attribute "node.id" does not exist.')
+            raise
         target_name_list = []
         for pod in pods:
-            print(f'{pod.nodeId} check {node.id}')
-            if pod.nodeID is None or node.id is None:
-                print('Unexpected resonse from API.')
+            if not hasattr(pod, 'nodeId') is None:
+                print('Unexpected resonse from API. \
+                Attribute "pod.nodeId" does not exist.')
                 raise
-            else:
-                if pod.nodeId == node.id:
-                    target_name_list.append(pod.name)
-                    break
+            print(f'{pod.nodeId} check {node.id}:')
+            if pod.nodeId == node.id:
+                print(f'{pod.nodeId} == {node.id}!')
+                target_name_list.append(pod.name)
+                break
         if len(target_name_list) > 0:
             host_ip = resolve_node_ip(node)
             curl_cmd = " http://" + host_ip + ":" + \
@@ -1171,6 +1176,11 @@ def validate_response_app_endpoint(p_client, appId):
             except requests.ConnectionError:
                 print("failed to connect")
                 assert False, "failed to connect to the app"
+    else:
+        print("Ingress has no 'publicEndpoints'")
+        if DEBUG:
+            print(ingress)
+            raise
 
 
 def resolve_node_ip(node):
