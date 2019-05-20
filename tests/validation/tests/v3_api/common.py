@@ -551,6 +551,7 @@ def validate_http_response(cmd, target_name_list, client_pod=None):
         if len(target_hit_list) == 0:
             break
         if client_pod is None:
+            print('client_pod is None!')
             curl_cmd = "curl " + cmd
             result = run_command(curl_cmd)
         else:
