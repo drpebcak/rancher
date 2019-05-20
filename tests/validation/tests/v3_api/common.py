@@ -235,6 +235,12 @@ def validate_workload(p_client, workload, type, ns_name, pod_count=1,
         label = key + "=" + value
     get_pods = "get pods -l" + label + " -n " + ns_name
     pods_result = execute_kubectl_cmd(get_pods)
+    if "items" not in pods_result:
+        print('"pods_result" does not contain key "items"')
+        print(json.dumps(pods_result, indent=1))
+        raise
+    print(f'pods_result["items"] length: {len(pods_result["items"])}')
+    print(f'pod_count length: {pod_count}')
     assert len(pods_result["items"]) == pod_count
     for pod in pods_result["items"]:
         assert pod["status"]["phase"] == "Running"
