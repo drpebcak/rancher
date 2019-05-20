@@ -244,6 +244,7 @@ def validate_workload(p_client, workload, type, ns_name, pod_count=1,
     assert len(pods_result["items"]) == pod_count
     for pod in pods_result["items"]:
         assert pod["status"]["phase"] == "Running"
+    print(f'Returning with {pods_result["items"]}')
     return pods_result["items"]
 
 
