@@ -651,6 +651,7 @@ def validate_dns_record(pod, record, expected):
 def validate_dns_entry(pod, host, expected):
     # requires pod with `dig` available - TEST_IMAGE
     cmd = 'ping -c 1 -W 1 {0}'.format(host)
+    print(f'Executing command: {cmd}')
     ping_output = kubectl_pod_exec(pod, cmd)
 
     ping_validation_pass = False
