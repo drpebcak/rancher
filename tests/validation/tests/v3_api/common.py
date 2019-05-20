@@ -329,7 +329,7 @@ def run_command(command):
 def run_command_with_stderr(command):
     try:
         output = subprocess.check_output(command, shell=True,
-                                         stderr=subprocess.PIPE)
+                                         stderr=subprocess.STDOUT)
         returncode = 0
     except subprocess.CalledProcessError as e:
         output = e.output
