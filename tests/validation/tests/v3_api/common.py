@@ -989,10 +989,14 @@ def validate_hostPort(p_client, workload, source_port, cluster):
     for node in nodes:
         target_name_list = []
         for pod in pods:
-            print(pod.nodeId + " check " + node.id)
-            if pod.nodeId == node.id:
-                target_name_list.append(pod.name)
-                break
+            print(f'{pod.nodeId} check {node.id}')
+            if pod.nodeID is None or node.id is None:
+                print('Unexpected resonse from API.')
+                raise
+            else:
+                if pod.nodeId == node.id:
+                    target_name_list.append(pod.name)
+                    break
         if len(target_name_list) > 0:
             host_ip = resolve_node_ip(node)
             curl_cmd = " http://" + host_ip + ":" + \
