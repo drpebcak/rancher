@@ -15,7 +15,7 @@ DEFAULT_TIMEOUT = 120
 DEFAULT_MULTI_CLUSTER_APP_TIMEOUT = 300
 
 CATTLE_TEST_URL = os.environ.get('CATTLE_TEST_URL', "http://localhost:80")
-CATTLE_API_URL = CATTLE_TEST_URL + "/v3"
+CATTLE_API_URL = requests.compat.urljoin(CATTLE_TEST_URL + "/v3")
 
 ADMIN_TOKEN = os.environ.get('ADMIN_TOKEN', "None")
 kube_fname = os.path.join(os.path.dirname(os.path.realpath(__file__)),
