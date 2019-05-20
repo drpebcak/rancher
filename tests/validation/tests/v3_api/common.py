@@ -662,7 +662,7 @@ def validate_dns_entry(pod, host, expected):
             break
     if not ping_validation_pass:
         print('Ping validation failed.')
-        print(ping_output)
+        print(ping_output.decode())
 
     assert ping_validation_pass is True
     assert " 0% packet loss" in str(ping_output)
