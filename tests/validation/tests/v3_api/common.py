@@ -562,7 +562,6 @@ def validate_http_response(cmd, target_name_list, client_pod=None):
         result = result.rstrip()
         print("cmd: \t" + cmd)
         print("result: \t" + result)
-        print(target_name_list)
         assert result in target_name_list
         if result in target_hit_list:
             target_hit_list.remove(result)
