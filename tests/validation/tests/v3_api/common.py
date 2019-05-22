@@ -329,7 +329,7 @@ def run_command(command):
 def run_command_with_stderr(command):
     try:
         output = subprocess.check_output(command, shell=True,
-                                         stderr=subprocess.STDOUT)
+                                         stderr=subprocess.PIPE)
         returncode = 0
     except subprocess.CalledProcessError as e:
         output = e.output
@@ -650,7 +650,6 @@ def validate_dns_record(pod, record, expected):
 
 def validate_dns_entry(pod, host, expected):
     # requires pod with `dig` available - TEST_IMAGE
-    print(f'Expected value is "{expected}"')
     cmd = 'ping -c 1 -W 1 {0}'.format(host)
     print(f'Executing command: {cmd}')
     ping_output = kubectl_pod_exec(pod, cmd)
@@ -660,15 +659,11 @@ def validate_dns_entry(pod, host, expected):
         if expected_value in str(ping_output):
             ping_validation_pass = True
             break
-    if not ping_validation_pass:
-        print('Ping validation failed.')
-        print(ping_output.decode())
 
     assert ping_validation_pass is True
     assert " 0% packet loss" in str(ping_output)
 
     dig_cmd = 'dig {0} +short'.format(host)
-    print(f'Executing command: {dig_cmd}')
     dig_output = kubectl_pod_exec(pod, dig_cmd)
 
     for expected_value in expected:
