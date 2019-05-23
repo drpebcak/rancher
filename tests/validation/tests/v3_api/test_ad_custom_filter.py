@@ -76,8 +76,9 @@ def disable_ad(username, token, expected_status=200):
         "password": PASSWORD
     }, verify=False, headers=headers)
     assert r.status_code == expected_status
-    print("Disable ActiveDirectory request for " +
-          username + " " + str(expected_status))
+    if DEBUG:
+        print("Disable ActiveDirectory request for " +
+              username + " " + str(expected_status))
 
 
 def enable_ad_with_customized_filter(username, usersearchfilter,

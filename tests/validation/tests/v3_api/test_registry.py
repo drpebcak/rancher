@@ -129,15 +129,17 @@ def delete_registry(client, registry, ns):
     registryname = registry.name
     # Sleep to allow for the registry to be deleted
     time.sleep(5)
-    print("Registry list after deleting registry")
     registrydict = client.list_dockerCredential(name=registryname).data
-    print(registrydict)
+    if DEBUG:
+        print("Registry list after deleting registry")
+        print(registrydict)
     if len(registrydict) == 0:
         assert True
 
     namespacedict = c_client.list_namespace(projectId=project.id).data
-    print("List of namespaces")
-    print(namespacedict)
+    if DEBUG:
+        print("List of namespaces")
+        print(namespacedict)
     len_namespace = len(namespacedict)
     namespaceData = namespacedict
 
@@ -146,16 +148,18 @@ def delete_registry(client, registry, ns):
     # for each of the namespaces
     for i in range(0, len_namespace):
         ns_name = namespaceData[i]['name']
-        print(i, ns_name)
+        if DEBUG:
+            print(i, ns_name)
 
         command = " get secret " + registryname + " --namespace=" + ns_name
-        print("Command to obtain the secret")
-        print(command)
+        if DEBUG:
+            print("Command to obtain the secret")
+            print(command)
         result = execute_kubectl_cmd(command, json_out=False, stderr=True)
-        print(result)
-
-        print("Verify that the secret does not exist "
-              "and the error code returned is non zero ")
+        if DEBUG:
+            print(result)
+            print("Verify that the secret does not exist "
+                  "and the error code returned is non zero ")
         if result != 0:
             assert True
 
@@ -163,8 +167,9 @@ def delete_registry(client, registry, ns):
 def create_registry_validate_workload(p_client, ns=None, allns=False):
 
     name = random_test_name("registry")
-    print(REGISTRY_USER_NAME)
-    print(REGISTRY_PASSWORD)
+    if DEBUG:
+        print(REGISTRY_USER_NAME)
+        print(REGISTRY_PASSWORD)
     registries = {REGISTRY: {"username": REGISTRY_USER_NAME,
                              "password": REGISTRY_PASSWORD}}
     if allns:

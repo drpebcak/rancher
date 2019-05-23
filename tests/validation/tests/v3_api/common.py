@@ -27,6 +27,7 @@ CLUSTER_NAME = os.environ.get("RANCHER_CLUSTER_NAME", "")
 CLUSTER_NAME_2 = os.environ.get("RANCHER_CLUSTER_NAME_2", "")
 RANCHER_CLEANUP_CLUSTER = \
     ast.literal_eval(os.environ.get('RANCHER_CLEANUP_CLUSTER', "True"))
+DEBUG = ast.literal_eval(os.environ.get('DEBUG', "False"))
 env_file = os.path.join(
     os.path.dirname(os.path.realpath(__file__)),
     "rancher_env.config")
@@ -196,7 +197,8 @@ def change_member_role_in_project(client, user, prtb, role_template_id):
 
 def create_kubeconfig(cluster):
     generateKubeConfigOutput = cluster.generateKubeconfig()
-    print(generateKubeConfigOutput.config)
+    if DEBUG:
+        print(generateKubeConfigOutput.config)
     file = open(kube_fname, "w")
     file.write(generateKubeConfigOutput.config)
     file.close()
@@ -237,10 +239,12 @@ def validate_workload(p_client, workload, type, ns_name, pod_count=1,
     pods_result = execute_kubectl_cmd(get_pods)
     if "items" not in pods_result:
         print('"pods_result" does not contain key "items"')
-        print(json.dumps(pods_result, indent=1))
+        if DEBUG:
+            print(json.dumps(pods_result, indent=1))
         raise
-    print(f'pods_result["items"] length: {len(pods_result["items"])}')
-    print(f'pod_count length: {pod_count}')
+    if DEBUG:
+        print(f'pods_result["items"] length: {len(pods_result["items"])}')
+        print(f'pod_count length: {pod_count}')
     assert len(pods_result["items"]) == pod_count
     for pod in pods_result["items"]:
         assert pod["status"]["phase"] == "Running"
@@ -317,7 +321,8 @@ def execute_kubectl_cmd(cmd, json_out=True, stderr=False):
         result = run_command(command)
     if json_out:
         result = json.loads(result)
-    print(result)
+    if DEBUG:
+        print(result)
     return result
 
 
@@ -333,7 +338,8 @@ def run_command_with_stderr(command):
     except subprocess.CalledProcessError as e:
         output = e.output
         returncode = e.returncode
-    print(returncode)
+    if DEBUG:
+        print(returncode)
     return output
 
 
@@ -486,7 +492,8 @@ def get_target_names(p_client, workloads):
     target_name_list = []
     for pod in pods:
         target_name_list.append(pod.name)
-    print("target name list:" + str(target_name_list))
+    if DEBUG:
+        print("target name list:" + str(target_name_list))
     return target_name_list
 
 
@@ -559,8 +566,9 @@ def validate_http_response(cmd, target_name_list, client_pod=None):
             result = kubectl_pod_exec(client_pod, wget_cmd)
             result = result.decode()
         result = result.rstrip()
-        print("cmd: \t" + cmd)
-        print("result: \t" + result)
+        if DEBUG:
+            print("cmd: \t" + cmd)
+            print("result: \t" + result)
         assert result in target_name_list
         if result in target_hit_list:
             target_hit_list.remove(result)
@@ -649,7 +657,8 @@ def validate_dns_record(pod, record, expected):
 def validate_dns_entry(pod, host, expected):
     # requires pod with `dig` available - TEST_IMAGE
     cmd = 'ping -c 1 -W 1 {0}'.format(host)
-    print(f'Executing command: {cmd}')
+    if DEBUG:
+        print(f'Executing command: {cmd}')
     ping_output = kubectl_pod_exec(pod, cmd)
 
     ping_validation_pass = False
