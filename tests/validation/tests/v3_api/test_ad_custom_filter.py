@@ -1,5 +1,5 @@
 from .common import *   # NOQA
-
+import ast
 import requests
 
 AUTH_PROVIDER = os.environ.get('RANCHER_AUTH_PROVIDER', "")
@@ -38,6 +38,7 @@ DEFAULT_LOGIN_DOMAIN = os.environ.get("RANCHER_DEFAULT_LOGIN_DOMAIN")
 USER_SEARCH_BASE = os.environ.get("RANCHER_USER_SEARCH_BASE")
 GROUP_SEARCH_BASE = os.environ.get("RANCHER_GROUP_SEARCH_BASE")
 PASSWORD = os.environ.get('RANCHER_USER_PASSWORD', "")
+DEBUG = ast.literal_eval(os.environ.get('DEBUG', "False"))
 
 CATTLE_AUTH_URL = urljoin(
     CATTLE_TEST_URL,

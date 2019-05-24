@@ -6,6 +6,7 @@ from rancher import ApiError, Client
 from .common import (
     ADMIN_TOKEN,
     CATTLE_TEST_URL,
+    DEBUG,
     assign_members_to_cluster,
     assign_members_to_project,
     change_member_role_in_cluster,
