@@ -116,9 +116,31 @@ def random_name():
 
 
 def create_project_and_ns(token, cluster, project_name=None, ns_name=None):
+    if DEBUG:
+        print('Running get_client_for_token')
+        print('With args:')
+        print(f'{token}')
     client = get_client_for_token(token)
+    if DEBUG:
+        print('Running create_project')
+        print('With args:')
+        print(f'{client}')
+        print(f'{cluster}')
+        print(f'{project_name}')
     p = create_project(client, cluster, project_name)
+    if DEBUG:
+        print('Running get_cluster_client_for_token')
+        print('With args:')
+        print(f'{cluster}')
+        print(f'{token}')
     c_client = get_cluster_client_for_token(cluster, token)
+    if DEBUG:
+        print('Running create_ns')
+        print('With args:')
+        print(f'{c_client}')
+        print(f'{cluster}')
+        print(f'{p}')
+        print(f'{ns_name}')
     ns = create_ns(c_client, cluster, p, ns_name)
     return p, ns
 
