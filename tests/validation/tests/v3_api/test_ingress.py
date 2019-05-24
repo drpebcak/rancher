@@ -329,7 +329,7 @@ def create_project_client(request):
         print('running create_project_and_ns()')
         print('With args:')
         print(f'{ADMIN_TOKEN}')
-        print(f'cluster')
+        print(f'{cluster}')
         print(f'testingress')
     p, ns = create_project_and_ns(ADMIN_TOKEN, cluster, "testingress")
     if DEBUG:
