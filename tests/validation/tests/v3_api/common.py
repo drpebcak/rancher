@@ -66,7 +66,10 @@ def get_project_client_for_token(project, token):
 def get_cluster_client_for_token(cluster, token):
     if DEBUG:
         print('About to urljoin in get_cluster_client_for_token()')
-        print(f'{cluster.links["self"]}')
+        print('whole cluster')
+        print(cluster.links)
+        print('just links')
+        print(cluster.links['self'])
         print(f'/schemas')
     c_url = urljoin(cluster.links['self'], '/schemas')
     if DEBUG:
