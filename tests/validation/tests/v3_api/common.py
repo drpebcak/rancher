@@ -1004,14 +1004,18 @@ def validate_hostPort(p_client, workload, source_port, cluster):
     nodes = get_schedulable_nodes(cluster)
     for node in nodes:
         if not hasattr(node, 'id'):
-            print('Unexpected resonse from API. \
+            print('Unexpected resonse from API.\n \
             Attribute "node.id" does not exist.')
+            if DEBUG:
+                print(node)
             raise
         target_name_list = []
         for pod in pods:
             if not hasattr(pod, 'nodeId') is None:
-                print('Unexpected resonse from API. \
+                print('Unexpected resonse from API.\n \
                 Attribute "pod.nodeId" does not exist.')
+                if DEBUG:
+                    print(pod)
                 raise
             print(f'{pod.nodeId} check {node.id}:')
             if pod.nodeId == node.id:
