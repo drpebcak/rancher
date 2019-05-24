@@ -325,7 +325,18 @@ def test_ingress_xip_io():
 def create_project_client(request):
     client, cluster = get_admin_client_and_cluster()
     create_kubeconfig(cluster)
+    if DEBUG:
+        print('running create_project_and_ns()')
+        print('With args:')
+        print(f'{ADMIN_TOKEN}')
+        print(f'cluster')
+        print(f'testingress')
     p, ns = create_project_and_ns(ADMIN_TOKEN, cluster, "testingress")
+    if DEBUG:
+        print('running get_project_client_for_token()')
+        print('With args:')
+        print(f'{p}')
+        print(f'{ADMIN_TOKEN}')
     p_client = get_project_client_for_token(p, ADMIN_TOKEN)
     namespace["p_client"] = p_client
     namespace["ns"] = ns
