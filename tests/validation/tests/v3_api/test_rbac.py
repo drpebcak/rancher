@@ -26,7 +26,6 @@ CATTLE_AUTH_URL = requests.compat.urljoin(
     "/v3-public/localproviders/local?action=login"
     )
 user_password = "password"
-DEBUG = ast.literal_eval(os.environ.get('DEBUG', "False"))
 
 
 def test_rbac_cluster_owner():

@@ -53,8 +53,6 @@ CATTLE_AUTH_ENABLE_URL = CATTLE_AUTH_PROVIDER_URL + "?action=testAndApply"
 
 CATTLE_AUTH_DISABLE_URL = CATTLE_AUTH_PROVIDER_URL + "?action=disable"
 
-DEBUG = ast.literal_eval(os.environ.get('DEBUG', "False"))
-
 
 def test_custom_user_and_group_filter_for_AD():
     disable_ad("testuser1", ADMIN_TOKEN)
