@@ -53,11 +53,22 @@ CATTLE_AUTH_PRINCIPAL_URL = urljoin(
     )
 
 CATTLE_AUTH_ENABLE_URL = urljoin(
-    CATTLE_AUTH_PROVIDER_URL,
+    CATTLE_TEST_URL,
+    "/v3/",
+    AUTH_PROVIDER,
+    "Configs/",
+    AUTH_PROVIDER.lower(),
     "?action=testAndApply"
     )
 
-CATTLE_AUTH_DISABLE_URL = urljoin(CATTLE_AUTH_PROVIDER_URL, "?action=disable")
+CATTLE_AUTH_DISABLE_URL = urljoin(
+    CATTLE_TEST_URL,
+    "/v3/",
+    AUTH_PROVIDER,
+    "Configs/",
+    AUTH_PROVIDER.lower(),
+    "?action=disable"
+    )
 
 setup = {"cluster1": None,
          "project1": None,

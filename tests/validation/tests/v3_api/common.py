@@ -58,7 +58,7 @@ def get_client_for_token(token):
 
 
 def get_project_client_for_token(project, token):
-    p_url = urljoin(project.links['self'], '/schemas')
+    p_url = project.links['self']+'/schemas'
     p_client = rancher.Client(url=p_url, token=token, verify=False)
     return p_client
 
@@ -71,7 +71,7 @@ def get_cluster_client_for_token(cluster, token):
         print('just links')
         print(cluster.links['self'])
         print(f'/schemas')
-    c_url = urljoin(cluster.links['self'], '/schemas')
+    c_url = cluster.links['self']+'/schemas'
     if DEBUG:
         print(f'c_url = {c_url}')
     c_client = rancher.Client(url=c_url, token=token, verify=False)
@@ -79,7 +79,7 @@ def get_cluster_client_for_token(cluster, token):
 
 
 def up(cluster, token):
-    c_url = urljoin(cluster.links['self'], '/schemas')
+    c_url = cluster.links['self']+'/schemas'
     c_client = rancher.Client(url=c_url, token=token, verify=False)
     return c_client
 

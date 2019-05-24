@@ -42,7 +42,7 @@ def test_deploy_rancher_server():
         1, random_test_name("testsa"+HOST_NAME))
     aws_nodes[0].execute_command(RANCHER_SERVER_CMD)
     time.sleep(120)
-    RANCHER_SERVER_URL = urljoin("https://", aws_nodes[0].public_ip_address)
+    RANCHER_SERVER_URL = "https://"+aws_nodes[0].public_ip_address
     print(RANCHER_SERVER_URL)
     wait_until_active(RANCHER_SERVER_URL)
 
