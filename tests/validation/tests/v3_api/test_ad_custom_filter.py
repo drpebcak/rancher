@@ -39,19 +39,36 @@ USER_SEARCH_BASE = os.environ.get("RANCHER_USER_SEARCH_BASE")
 GROUP_SEARCH_BASE = os.environ.get("RANCHER_GROUP_SEARCH_BASE")
 PASSWORD = os.environ.get('RANCHER_USER_PASSWORD', "")
 
-CATTLE_AUTH_URL = \
-    CATTLE_TEST_URL + \
-    "/v3-public/"+AUTH_PROVIDER+"Providers/" + \
-    AUTH_PROVIDER.lower()+"?action=login"
+CATTLE_AUTH_URL = urljoin(
+    CATTLE_TEST_URL,
+    "/v3-public/",
+    AUTH_PROVIDER,
+    "Providers/",
+    AUTH_PROVIDER.lower(),
+    "?action=login"
+    )
 
-CATTLE_AUTH_PROVIDER_URL = \
-    CATTLE_TEST_URL + "/v3/"+AUTH_PROVIDER+"Configs/"+AUTH_PROVIDER.lower()
+CATTLE_AUTH_PROVIDER_URL = urljoin(
+    CATTLE_TEST_URL,
+    "/v3/",
+    AUTH_PROVIDER,
+    "Configs/",
+    AUTH_PROVIDER.lower()
+    )
 
-CATTLE_AUTH_PRINCIPAL_URL = CATTLE_TEST_URL + "/v3/principals?action=search"
+CATTLE_AUTH_PRINCIPAL_URL = urljoin(
+    CATTLE_TEST_URL,
+    "/v3/principals?action=search"
+    )
 
-CATTLE_AUTH_ENABLE_URL = CATTLE_AUTH_PROVIDER_URL + "?action=testAndApply"
+CATTLE_AUTH_ENABLE_URL = urljoin(
+    CATTLE_AUTH_PROVIDER_URL,
+    "?action=testAndApply")
 
-CATTLE_AUTH_DISABLE_URL = CATTLE_AUTH_PROVIDER_URL + "?action=disable"
+CATTLE_AUTH_DISABLE_URL = urljoin(
+    CATTLE_AUTH_PROVIDER_URL,
+    "?action=disable"
+    )
 
 
 def test_custom_user_and_group_filter_for_AD():

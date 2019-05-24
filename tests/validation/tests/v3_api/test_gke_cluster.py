@@ -49,7 +49,7 @@ def get_gke_version_credentials():
                    "Accept": "application/json",
                    "Authorization": "Bearer " + ADMIN_TOKEN}
 
-        gke_version_url = CATTLE_TEST_URL + "/meta/gkeVersions"
+        gke_version_url = urljoin(CATTLE_TEST_URL, "/meta/gkeVersions")
         print(gke_version_url)
         response = requests.post(gke_version_url, json=data_test,
                                  verify=False, headers=headers)

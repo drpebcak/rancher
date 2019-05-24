@@ -42,7 +42,7 @@ def test_deploy_rancher_server():
         1, random_test_name("testsa"+HOST_NAME))
     aws_nodes[0].execute_command(RANCHER_SERVER_CMD)
     time.sleep(120)
-    RANCHER_SERVER_URL = "https://" + aws_nodes[0].public_ip_address
+    RANCHER_SERVER_URL = urljoin("https://", aws_nodes[0].public_ip_address)
     print(RANCHER_SERVER_URL)
     wait_until_active(RANCHER_SERVER_URL)
 
@@ -59,7 +59,7 @@ def test_deploy_rancher_server():
                 5, random_test_name("testcustom"))
         node_roles = [["controlplane"], ["etcd"],
                       ["worker"], ["worker"], ["worker"]]
-        client = rancher.Client(url=RANCHER_SERVER_URL+"/v3",
+        client = rancher.Client(url=urljoin(RANCHER_SERVER_URL, "/v3"),
                                 token=token, verify=False)
         cluster = client.create_cluster(
             name=random_name(),
@@ -103,8 +103,10 @@ def test_delete_rancher_server():
 
 def get_admin_token(RANCHER_SERVER_URL):
     """Returns a ManagementContext for the default global admin user."""
-    CATTLE_AUTH_URL = \
-        RANCHER_SERVER_URL + "/v3-public/localproviders/local?action=login"
+    CATTLE_AUTH_URL = urljoin(
+        RANCHER_SERVER_URL,
+        "/v3-public/localproviders/local?action=login"
+        )
     r = requests.post(CATTLE_AUTH_URL, json={
         'username': 'admin',
         'password': 'admin',
@@ -114,7 +116,7 @@ def get_admin_token(RANCHER_SERVER_URL):
     token = r.json()['token']
     print(token)
     # Change admin password
-    client = rancher.Client(url=RANCHER_SERVER_URL+"/v3",
+    client = rancher.Client(url=urljoin(RANCHER_SERVER_URL, "/v3"),
                             token=token, verify=False)
     admin_user = client.list_user(username="admin").data
     admin_user[0].setpassword(newPassword=ADMIN_PASSWORD)

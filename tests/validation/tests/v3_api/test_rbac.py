@@ -20,8 +20,8 @@ from .common import (
     random_name,
 )
 
-CATTLE_API_URL = requests.compat.urljoin(CATTLE_TEST_URL, "/v3")
-CATTLE_AUTH_URL = requests.compat.urljoin(
+CATTLE_API_URL = urljoin(CATTLE_TEST_URL, "/v3")
+CATTLE_AUTH_URL = urljoin(
     CATTLE_TEST_URL,
     "/v3-public/localproviders/local?action=login"
     )

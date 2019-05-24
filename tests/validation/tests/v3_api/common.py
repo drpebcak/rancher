@@ -15,7 +15,7 @@ DEFAULT_TIMEOUT = 120
 DEFAULT_MULTI_CLUSTER_APP_TIMEOUT = 300
 
 CATTLE_TEST_URL = os.environ.get('CATTLE_TEST_URL', "http://localhost:80")
-CATTLE_API_URL = requests.compat.urljoin(CATTLE_TEST_URL, "/v3")
+CATTLE_API_URL = urljoin(CATTLE_TEST_URL, "/v3")
 
 ADMIN_TOKEN = os.environ.get('ADMIN_TOKEN', "None")
 kube_fname = os.path.join(os.path.dirname(os.path.realpath(__file__)),
@@ -58,19 +58,19 @@ def get_client_for_token(token):
 
 
 def get_project_client_for_token(project, token):
-    p_url = project.links['self'] + '/schemas'
+    p_url = urljoin(project.links['self'], '/schemas')
     p_client = rancher.Client(url=p_url, token=token, verify=False)
     return p_client
 
 
 def get_cluster_client_for_token(cluster, token):
-    c_url = cluster.links['self'] + '/schemas'
+    c_url = urljoin(cluster.links['self'], '/schemas')
     c_client = rancher.Client(url=c_url, token=token, verify=False)
     return c_client
 
 
 def up(cluster, token):
-    c_url = cluster.links['self'] + '/schemas'
+    c_url = urljoin(cluster.links['self'], '/schemas')
     c_client = rancher.Client(url=c_url, token=token, verify=False)
     return c_client
 
@@ -1209,3 +1209,9 @@ def resolve_node_ip(node):
     else:
         node_ip = node.ipAddress
     return node_ip
+
+
+def urljoin(base, *args):
+    for arg in args:
+        base = requests.compat.urljoin(base, arg)
+    return base

@@ -43,7 +43,7 @@ def get_aks_version():
                    "Accept": "application/json",
                    "Authorization": "Bearer " + ADMIN_TOKEN}
 
-        aks_version_url = CATTLE_TEST_URL + "/meta/aksVersions"
+        aks_version_url = urljoin(CATTLE_TEST_URL, "/meta/aksVersions")
         print(aks_version_url)
         response = requests.post(aks_version_url, json=data_test,
                                  verify=False, headers=headers)
