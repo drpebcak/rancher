@@ -19,6 +19,7 @@ from .common import (
     get_client_for_token,
     get_cluster_client_for_token,
     random_name,
+    urljoin,
 )
 
 CATTLE_API_URL = urljoin(CATTLE_TEST_URL, "/v3")
