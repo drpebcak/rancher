@@ -10,6 +10,7 @@ REGISTRY_USER_NAME = os.environ.get('RANCHER_REGISTRY_USER_NAME', "None")
 REGISTRY_PASSWORD = os.environ.get('RANCHER_REGISTRY_PASSWORD', "None")
 TEST_CLIENT_IMAGE = os.environ.get('RANCHER_TEST_CLIENT_IMAGE', "None")
 REGISTRY = os.environ.get('RANCHER_REGISTRY', "None")
+DEBUG = ast.literal_eval(os.environ.get('DEBUG', "False"))
 
 
 def test_create_registry_single_namespace():

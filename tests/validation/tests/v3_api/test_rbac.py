@@ -20,10 +20,13 @@ from .common import (
     random_name,
 )
 
-CATTLE_API_URL = CATTLE_TEST_URL + "/v3"
-CATTLE_AUTH_URL = \
-    CATTLE_TEST_URL + "/v3-public/localproviders/local?action=login"
+CATTLE_API_URL = requests.compat.urljoin(CATTLE_TEST_URL, "/v3")
+CATTLE_AUTH_URL = requests.compat.urljoin(
+    CATTLE_TEST_URL,
+    "/v3-public/localproviders/local?action=login"
+    )
 user_password = "password"
+DEBUG = ast.literal_eval(os.environ.get('DEBUG', "False"))
 
 
 def test_rbac_cluster_owner():
